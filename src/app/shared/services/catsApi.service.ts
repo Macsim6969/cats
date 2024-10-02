@@ -36,13 +36,13 @@ export class CatsApiService {
     return this.http.get<Cats[]>(`${environment.API_URL}/images/search`, { headers, params });
   }
 
-  public getAllCats(limit?: number): Observable<Cats[]> {
+  public getAllCats(limit: number = 10): Observable<Cats[]> {
     const headers = new HttpHeaders({
       'x-api-key': environment.API_KEY
     });
 
     const params = new HttpParams()
-      .set('limit', limit ? limit.toString() : '100');
+      .set('limit', limit);
 
     return this.http.get<Cats[]>(`${environment.API_URL}/images/search`, { headers, params });
 

@@ -1,8 +1,6 @@
-import { Select } from '@ngxs/store';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Cats } from '../../../../../shared/models/cats.interface';
-import { CatsState } from '../../../../../store/selectors/cats.selectors';
 
 @Component({
   selector: 'app-cats-content',
@@ -10,6 +8,5 @@ import { CatsState } from '../../../../../store/selectors/cats.selectors';
   styleUrl: './cats-content.component.scss'
 })
 export class CatsContentComponent {
-  @Select(CatsState.allCats) cats$!: Observable<Cats[]>;
-
+  @Input() public cats$!: Observable<Cats[]>;
 }

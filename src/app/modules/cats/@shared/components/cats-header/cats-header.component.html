@@ -5,7 +5,8 @@
       <mat-label>Choice Breed</mat-label>
       <mat-select [(ngModel)]="selectedBreed">
         <mat-option [value]="''">All</mat-option>
-        <mat-option *ngFor="let breed of (breeds$ |async)" [value]="breed.id">{{ breed.name }}</mat-option>
+        <mat-option *ngFor="let breed of (breeds$ |async)trackBy: trackById" [value]="breed.id">{{ breed.name
+          }}</mat-option>
       </mat-select>
     </mat-form-field>
 

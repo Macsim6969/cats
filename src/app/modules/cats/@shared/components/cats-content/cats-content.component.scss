@@ -6,12 +6,13 @@
   justify-content: center;
 
 
-
   .cat-card {
     max-width: 350px;
+    max-height: 350px;
 
     @media (max-width: 920px) {
       max-width: 250px;
+      max-height: 250px;
     }
 
     img {

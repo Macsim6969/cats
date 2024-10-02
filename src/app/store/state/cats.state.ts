@@ -2,10 +2,10 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { CatsApiService } from '../../shared/services/catsApi.service';
-import { Breeds } from '../../shared/models/breeds.interface';
-import { Cats } from '../../shared/models/cats.interface';
 import { CatsStateModel } from '../model/cats.model';
 import { GetAllCats, LoadBreeds, SearchCats } from '../actions/cats.actions';
+import { Breeds } from '../../shared/models/breeds.interface';
+import { Cats } from '../../shared/models/cats.interface';
 
 
 // Создание состояния
@@ -20,7 +20,15 @@ import { GetAllCats, LoadBreeds, SearchCats } from '../actions/cats.actions';
 @Injectable()
 export class CatsState {
   constructor(private catsService: CatsApiService) { }
+  @Selector()
+  static breeds(state: CatsStateModel): Breeds[] {
+    return state.breeds;
+  }
 
+  @Selector()
+  static cats(state: CatsStateModel): Cats[] {
+    return state.cats;
+  }
 
   @Action(GetAllCats)
   getAllCats(ctx: StateContext<CatsStateModel>) {

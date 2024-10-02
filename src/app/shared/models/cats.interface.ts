@@ -3,5 +3,5 @@ export interface Cats {
   url: string;
   width: number;
   height: number;
-  breeds: any[];
+  name: string;
 }
