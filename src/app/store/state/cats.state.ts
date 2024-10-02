@@ -32,7 +32,7 @@ export class CatsState {
 
   @Action(GetAllCats)
   getAllCats(ctx: StateContext<CatsStateModel>) {
-    return this.catsService.getAllCats().pipe(
+    return this.catsService.getAllCatsByBreeds().pipe(
       tap(cats => {
         const state = ctx.getState();
         ctx.setState({
