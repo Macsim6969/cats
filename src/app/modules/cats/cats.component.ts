@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { CatsApiService } from '../../shared/services/catsApi.service';
-import { CatsState, LoadBreeds, SearchCats } from '../../store/cats.state';
+import { CatsState, GetAllCats, LoadBreeds, SearchCats } from '../../store/cats.state';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Breeds } from '../../shared/models/breeds.interface';
@@ -22,11 +21,11 @@ export class CatsComponent {
 
   ngOnInit(): void {
     // Загрузка пород кошек при инициализации компонента
+    this.store.dispatch(new GetAllCats(100));
     this.store.dispatch(new LoadBreeds());
   }
 
   searchCats() {
-    // Вызов действия для поиска кошек
-    this.store.dispatch(new SearchCats(this.selectedBreed, this.limit));
+    this.selectedBreed === '' ? this.store.dispatch(new GetAllCats(this.limit)) : this.store.dispatch(new SearchCats(this.selectedBreed, this.limit));
   }
 }

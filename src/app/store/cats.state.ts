@@ -11,8 +11,13 @@ export class LoadBreeds {
 }
 
 export class SearchCats {
-  constructor(public breedId: string, public limit: number) {}
+  constructor(public breedId: string, public limit: number) { }
   static readonly type = '[Cats] Search Cats';
+}
+
+export class GetAllCats {
+  constructor(public limit: number) { }
+  static readonly type = '[Cats] Load All';
 }
 
 // Интерфейс для состояния
@@ -26,24 +31,42 @@ export interface CatsStateModel {
   name: 'cats',
   defaults: {
     breeds: [],
-    cats: []
+    cats: [],
   }
 })
 
 
 @Injectable()
 export class CatsState {
-  constructor(private catsService: CatsApiService) {}
+  constructor(private catsService: CatsApiService) { }
 
   // Селекторы для получения данных из состояния
   @Selector()
-  static breeds(state: CatsStateModel) {
+  static breeds(state: CatsStateModel): Breeds[] {
     return state.breeds;
   }
 
   @Selector()
-  static cats(state: CatsStateModel) {
+  static cats(state: CatsStateModel): Cats[] {
     return state.cats;
+  }
+
+  @Selector()
+  static allCats(state: CatsStateModel): Cats[] {
+    return state.cats;
+  }
+
+  @Action(GetAllCats)
+  getAllCats(ctx: StateContext<CatsStateModel>) {
+    return this.catsService.getAllCats().pipe(
+      tap(cats => {
+        const state = ctx.getState();
+        ctx.setState({
+          ...state,
+          cats: cats
+        });
+      })
+    );
   }
 
   // Загрузка пород кошек
@@ -52,7 +75,6 @@ export class CatsState {
     return this.catsService.getBreeds().pipe(
       tap(breeds => {
         const state = ctx.getState();
-        console.log(breeds);
         ctx.setState({
           ...state,
           breeds: breeds
@@ -74,4 +96,6 @@ export class CatsState {
       })
     );
   }
+
+
 }

@@ -6,10 +6,14 @@ import { MatCardModule } from "@angular/material/card";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { LoadingComponent } from "../components/loading/loading.component";
 
 
 @NgModule({
+  declarations: [
+    LoadingComponent
+  ],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -17,6 +21,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     MatInputModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
     FormsModule
   ],
   exports: [
@@ -24,7 +29,9 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     MatCardModule,
     MatInputModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    LoadingComponent
   ]
 })
 
