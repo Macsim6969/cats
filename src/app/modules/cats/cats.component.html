@@ -1,33 +1,4 @@
 <div class="cats">
-  <mat-card>
-    <mat-card-title class="title">Search cats</mat-card-title>
-    <mat-card-content>
-      <mat-form-field appearance="outline">
-        <mat-label>Choice Breed</mat-label>
-        <mat-select [(ngModel)]="selectedBreed">
-          <mat-option [value]="''">All</mat-option>
-          <mat-option *ngFor="let breed of (breeds$ |async)" [value]="breed.id">{{ breed.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Number of results</mat-label>
-        <input matInput type="number" [(ngModel)]="limit" placeholder="type number" />
-      </mat-form-field>
-
-      <!-- Button Search -->
-      <button mat-raised-button color="primary" (click)="searchCats()">Search</button>
-    </mat-card-content>
-  </mat-card>
-
-  <!-- Список найденных котов -->
-  <div class="cat-grid" *ngIf="(cats$|async)?.length;else loading">
-    <mat-card *ngFor="let cat of (cats$ |async)" class="cat-card">
-      <img mat-card-image [src]="cat.url" alt="Cat" />
-    </mat-card>
-  </div>
-  <ng-template #loading>
-    <app-loading class="loading"></app-loading>
-  </ng-template>
-
+  <app-cats-header></app-cats-header>
+  <app-cats-content></app-cats-content>
 </div>

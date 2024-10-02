@@ -1,0 +1,9 @@
+<!-- Список найденных котов -->
+<div class="cat-grid" *ngIf="(cats$|async)?.length;else loading">
+  <mat-card *ngFor="let cat of (cats$ |async)" class="cat-card">
+    <img mat-card-image [src]="cat.url" alt="Cat" />
+  </mat-card>
+</div>
+<ng-template #loading>
+  <app-loading class="loading"></app-loading>
+</ng-template>

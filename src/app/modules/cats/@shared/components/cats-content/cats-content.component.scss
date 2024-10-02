@@ -1,0 +1,23 @@
+.cat-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 20px;
+  justify-content: center;
+
+
+
+  .cat-card {
+    max-width: 350px;
+
+    @media (max-width: 920px) {
+      max-width: 250px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}

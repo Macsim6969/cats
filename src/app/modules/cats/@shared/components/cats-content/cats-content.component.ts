@@ -1,0 +1,15 @@
+import { Select } from '@ngxs/store';
+import { Component } from '@angular/core';
+import { CatsState } from '../../../../../store/cats.state';
+import { Observable } from 'rxjs';
+import { Cats } from '../../../../../shared/models/cats.interface';
+
+@Component({
+  selector: 'app-cats-content',
+  templateUrl: './cats-content.component.html',
+  styleUrl: './cats-content.component.scss'
+})
+export class CatsContentComponent {
+  @Select(CatsState.allCats) cats$!: Observable<Cats[]>;
+
+}
