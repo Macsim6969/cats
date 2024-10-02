@@ -1,0 +1,22 @@
+<section class="cats">
+  <h1>Find Cats</h1>
+
+  <!-- Фільтр за породою -->
+  <label for="breed">Choice breed:</label>
+  <select [(ngModel)]="selectedBreed" id="breed">
+    <option value="">All</option>
+    <option *ngFor="let breed of breeds" [value]="breed.id">{{ breed.name }}</option>
+  </select>
+
+  <label for="limit">Кількість результатів:</label>
+  <input type="number" [(ngModel)]="limit" id="limit" min="1" max="50">
+
+  <button (click)="searchCats()">Search</button>
+
+  <div *ngIf="cats.length > 0">
+    <h2>Find Cats</h2>
+    <div *ngFor="let cat of cats">
+      <img [src]="cat.url" alt="cat" width="200" height="200">
+    </div>
+  </div>
+</section>
