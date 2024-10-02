@@ -4,13 +4,10 @@
 }
 
 html {
-  font-size: 10px;
+  font-size: 18px;
   font-family: "Mukta", sans-serif;
 }
 
-html body {
-  height: 100vh;
-}
 
 html,
 body {
@@ -21,5 +18,13 @@ body {
   margin: 0;
   font-family: "Roboto", sans-serif;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

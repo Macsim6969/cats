@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 import { CatsApiService } from '../../shared/services/catsApi.service';
+import { CatsState, LoadBreeds, SearchCats } from '../../store/cats.state';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { Breeds } from '../../shared/models/breeds.interface';
+import { Cats } from '../../shared/models/cats.interface';
 
 @Component({
   selector: 'app-cats',
@@ -7,26 +12,21 @@ import { CatsApiService } from '../../shared/services/catsApi.service';
   styleUrl: './cats.component.scss'
 })
 export class CatsComponent {
-  breeds: any[] = [];
-  selectedBreed: string = '';
-  cats: any[] = [];
-  limit: number = 10;
+  @Select(CatsState.breeds) breeds$!: Observable<Breeds[]>;
+  @Select(CatsState.cats) cats$!: Observable<Cats[]>;
 
-  constructor(private catsService: CatsApiService) { }
+  public selectedBreed: string = '';
+  public limit: number = 10;
+
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.loadBreeds();
-  }
-
-  loadBreeds() {
-    this.catsService.getBreeds().subscribe((data) => {
-      this.breeds = data;
-    });
+    // Загрузка пород кошек при инициализации компонента
+    this.store.dispatch(new LoadBreeds());
   }
 
   searchCats() {
-    this.catsService.getCatsByBreed(this.selectedBreed, this.limit).subscribe((data) => {
-      this.cats = data;
-    });
+    // Вызов действия для поиска кошек
+    this.store.dispatch(new SearchCats(this.selectedBreed, this.limit));
   }
 }

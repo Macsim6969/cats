@@ -13,7 +13,7 @@ export class CatsApiService {
     private http: HttpClient
   ) { }
 
-
+  // Отримання порід
   public getBreeds(): Observable<any> {
     const headers = new HttpHeaders({
       'x-api-key': environment.API_KEY
@@ -22,7 +22,7 @@ export class CatsApiService {
     return this.http.get(`${environment.API_URL}/breeds`, { headers });
   }
 
-
+  // Отримання котів за породою та кількістю
   public getCatsByBreed(breedId: string, limit: number = 10): Observable<any> {
     const headers = new HttpHeaders({
       'x-api-key': environment.API_KEY

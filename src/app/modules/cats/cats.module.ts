@@ -4,6 +4,7 @@ import { CatsComponent } from './cats.component';
 import { RouterModule, Routes } from '@angular/router';
 import { CatsApiService } from '../../shared/services/catsApi.service';
 import { FormsModule , ReactiveFormsModule} from '@angular/forms';
+import { NgMaterialModule } from '../../shared/modules/ngMaterial.module';
 
 const routes: Routes = [
   { path: '', component: CatsComponent }
@@ -17,10 +18,8 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     FormsModule,
-    ReactiveFormsModule
-  ],
-  providers: [
-    CatsApiService
+    ReactiveFormsModule,
+    NgMaterialModule
   ]
 })
 export class CatsModule { }

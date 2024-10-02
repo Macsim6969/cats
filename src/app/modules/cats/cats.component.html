@@ -1,22 +1,30 @@
-<section class="cats">
-  <h1>Find Cats</h1>
+<div class="cats">
+  <mat-card>
+    <mat-card-title class="title">Search cats</mat-card-title>
+    <mat-card-content>
 
-  <!-- Фільтр за породою -->
-  <label for="breed">Choice breed:</label>
-  <select [(ngModel)]="selectedBreed" id="breed">
-    <option value="">All</option>
-    <option *ngFor="let breed of breeds" [value]="breed.id">{{ breed.name }}</option>
-  </select>
+      <mat-form-field appearance="outline">
+        <mat-label>Choice Breed</mat-label>
+        <mat-select [(ngModel)]="selectedBreed">
+          <mat-option [value]="''">All</mat-option>
+          <mat-option *ngFor="let breed of (breeds$ |async)" [value]="breed.id">{{ breed.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-  <label for="limit">Кількість результатів:</label>
-  <input type="number" [(ngModel)]="limit" id="limit" min="1" max="50">
+      <mat-form-field appearance="outline">
+        <mat-label>Number of results</mat-label>
+        <input matInput type="number" [(ngModel)]="limit" placeholder="type number" />
+      </mat-form-field>
 
-  <button (click)="searchCats()">Search</button>
+      <!-- Button Search -->
+      <button mat-raised-button color="primary" (click)="searchCats()">Search</button>
+    </mat-card-content>
+  </mat-card>
 
-  <div *ngIf="cats.length > 0">
-    <h2>Find Cats</h2>
-    <div *ngFor="let cat of cats">
-      <img [src]="cat.url" alt="cat" width="200" height="200">
-    </div>
+  <!-- Список найденных котов -->
+  <div class="cat-grid">
+    <mat-card *ngFor="let cat of (cats$ |async)" class="cat-card">
+      <img mat-card-image [src]="cat.url" alt="Cat" />
+    </mat-card>
   </div>
-</section>
+</div>
