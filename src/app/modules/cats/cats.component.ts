@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
-import { CatsState, GetAllCats, LoadBreeds, SearchCats } from '../../store/cats.state';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { Breeds } from '../../shared/models/breeds.interface';
-import { Cats } from '../../shared/models/cats.interface';
+import { Store } from '@ngxs/store';
+import { GetAllCats, LoadBreeds } from '../../store/actions/cats.actions';
 
 @Component({
   selector: 'app-cats',
@@ -11,7 +8,7 @@ import { Cats } from '../../shared/models/cats.interface';
   styleUrl: './cats.component.scss'
 })
 export class CatsComponent {
-  
+
   constructor(private store: Store) { }
 
   ngOnInit(): void {

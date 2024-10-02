@@ -8,7 +8,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { NgxsModule } from '@ngxs/store';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
-import { CatsState } from './store/cats.state';
+import { CatsState } from './store/state/cats.state';
 import { CatsApiService } from './shared/services/catsApi.service';
 
 @NgModule({

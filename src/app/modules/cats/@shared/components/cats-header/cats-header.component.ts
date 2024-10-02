@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
-import { CatsState, GetAllCats, SearchCats } from '../../../../../store/cats.state';
 import { Observable } from 'rxjs';
 import { Breeds } from '../../../../../shared/models/breeds.interface';
+import { GetAllCats, SearchCats } from '../../../../../store/actions/cats.actions';
+import { CatsState } from '../../../../../store/selectors/cats.selectors';
 
 @Component({
   selector: 'app-cats-header',

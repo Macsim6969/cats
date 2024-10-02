@@ -1,30 +1,12 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
-import { CatsApiService } from '../shared/services/catsApi.service';
-import { Breeds } from '../shared/models/breeds.interface';
-import { Cats } from '../shared/models/cats.interface';
+import { CatsApiService } from '../../shared/services/catsApi.service';
+import { Breeds } from '../../shared/models/breeds.interface';
+import { Cats } from '../../shared/models/cats.interface';
+import { CatsStateModel } from '../model/cats.model';
+import { GetAllCats, LoadBreeds, SearchCats } from '../actions/cats.actions';
 
-// Определение действий
-export class LoadBreeds {
-  static readonly type = '[Cats] Load Breeds';
-}
-
-export class SearchCats {
-  constructor(public breedId: string, public limit: number) { }
-  static readonly type = '[Cats] Search Cats';
-}
-
-export class GetAllCats {
-  constructor(public limit: number) { }
-  static readonly type = '[Cats] Load All';
-}
-
-// Интерфейс для состояния
-export interface CatsStateModel {
-  breeds: Breeds[];
-  cats: Cats[];
-}
 
 // Создание состояния
 @State<CatsStateModel>({
@@ -35,26 +17,10 @@ export interface CatsStateModel {
   }
 })
 
-
 @Injectable()
 export class CatsState {
   constructor(private catsService: CatsApiService) { }
 
-  // Селекторы для получения данных из состояния
-  @Selector()
-  static breeds(state: CatsStateModel): Breeds[] {
-    return state.breeds;
-  }
-
-  @Selector()
-  static cats(state: CatsStateModel): Cats[] {
-    return state.cats;
-  }
-
-  @Selector()
-  static allCats(state: CatsStateModel): Cats[] {
-    return state.cats;
-  }
 
   @Action(GetAllCats)
   getAllCats(ctx: StateContext<CatsStateModel>) {
