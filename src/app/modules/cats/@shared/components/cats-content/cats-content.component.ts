@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { combineLatest, map } from 'rxjs';
 import { Cats } from '../../../../../shared/models/cats.interface';
 import { Store } from '@ngxs/store';
@@ -8,8 +8,7 @@ import { GetCatsByBreed } from '../../../../../store/actions/cats.actions';
 @Component({
   selector: 'app-cats-content',
   templateUrl: './cats-content.component.html',
-  styleUrl: './cats-content.component.scss',
-
+  styleUrl: './cats-content.component.scss'
 })
 export class CatsContentComponent implements OnInit {
   public localCats!: Cats[];
@@ -18,7 +17,9 @@ export class CatsContentComponent implements OnInit {
   private breedId!: string;
   private limit!: number;
 
-  constructor(private store: Store) { }
+  constructor(
+    private store: Store
+  ){}
 
   ngOnInit(): void {
     this.streamToFilterCatsArray();
