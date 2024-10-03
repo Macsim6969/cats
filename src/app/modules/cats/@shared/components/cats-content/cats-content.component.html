@@ -1,6 +1,6 @@
 <!-- Список найденных котов -->
-<div class="cat-grid" *ngIf="(cats$|async)?.length;else loading">
-  <mat-card *ngFor="let cat of (cats$ |async)" class="cat-card">
+<div class="cat-grid" *ngIf="localCats?.length;else loading">
+  <mat-card *ngFor="let cat of localCats" class="cat-card">
     <img mat-card-image [src]="cat.url" [alt]="cat.name" />
   </mat-card>
 </div>

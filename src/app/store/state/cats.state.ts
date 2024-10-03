@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { CatsApiService } from '../../shared/services/catsApi.service';
 import { CatsStateModel } from '../model/cats.model';
-import { GetAllCats, LoadBreeds, SearchCats } from '../actions/cats.actions';
+import { GetAllCats, LoadBreeds, UpdatedBreedIdAndLimit } from '../actions/cats.actions';
 import { Breeds } from '../../shared/models/breeds.interface';
 import { Cats } from '../../shared/models/cats.interface';
 
@@ -14,6 +14,8 @@ import { Cats } from '../../shared/models/cats.interface';
   defaults: {
     breeds: [],
     cats: [],
+    breedId: '',
+    limit: 10
   }
 })
 
@@ -28,6 +30,14 @@ export class CatsState {
   @Selector()
   static cats(state: CatsStateModel): Cats[] {
     return state.cats;
+  }
+  @Selector()
+  static breedId(state: CatsStateModel): string {
+    return state.breedId;
+  }
+  @Selector()
+  static limit(state: CatsStateModel): number {
+    return state.limit;
   }
 
   @Action(GetAllCats)
@@ -58,17 +68,16 @@ export class CatsState {
   }
 
   // Поиск кошек по породе
-  @Action(SearchCats)
-  searchCats(ctx: StateContext<CatsStateModel>, action: SearchCats) {
-    return this.catsService.getCatsByBreed(action.breedId, action.limit).pipe(
-      tap(cats => {
-        const state = ctx.getState();
-        ctx.setState({
-          ...state,
-          cats: cats
-        });
-      })
-    );
+  @Action(UpdatedBreedIdAndLimit)
+  searchCats(ctx: StateContext<CatsStateModel>, action: UpdatedBreedIdAndLimit) {
+
+    const state = ctx.getState();
+    ctx.setState({
+      ...state,
+      breedId: action.breedId,
+      limit: action.limit
+    });
+
   }
 
 

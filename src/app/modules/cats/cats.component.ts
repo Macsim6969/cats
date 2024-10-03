@@ -13,7 +13,6 @@ import { CatsState } from '../../store/state/cats.state';
 })
 export class CatsComponent implements AfterViewInit {
   @Select(CatsState.breeds) breeds$!: Observable<Breeds[]>;
-  @Select(CatsState.cats) cats$!: Observable<Cats[]>;
 
   constructor(private store: Store) { }
 

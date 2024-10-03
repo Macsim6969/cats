@@ -4,4 +4,5 @@ export interface Cats {
   width: number;
   height: number;
   name: string;
+  breeds: any;
 }

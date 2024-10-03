@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Breeds } from '../../../../../shared/models/breeds.interface';
-import { GetAllCats, SearchCats } from '../../../../../store/actions/cats.actions';
+import { GetAllCats, UpdatedBreedIdAndLimit } from '../../../../../store/actions/cats.actions';
 
 @Component({
   selector: 'app-cats-header',
@@ -19,7 +19,7 @@ export class CatsHeaderComponent  {
 
 
   public searchCats() {
-    this.selectedBreed === '' ? this.store.dispatch(new GetAllCats(this.limit)) : this.store.dispatch(new SearchCats(this.selectedBreed, this.limit));
+    this.store.dispatch(new UpdatedBreedIdAndLimit(this.selectedBreed, this.limit));
   }
 
   public trackById(index: number, item: Breeds): string {

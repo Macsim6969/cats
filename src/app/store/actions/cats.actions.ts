@@ -2,9 +2,9 @@ export class LoadBreeds {
   static readonly type = '[Cats] Load Breeds';
 }
 
-export class SearchCats {
+export class UpdatedBreedIdAndLimit {
   constructor(public breedId: string, public limit: number) { }
-  static readonly type = '[Cats] Search Cats';
+  static readonly type = '[Cats] Update BreedId And Limit';
 }
 
 export class GetAllCats {

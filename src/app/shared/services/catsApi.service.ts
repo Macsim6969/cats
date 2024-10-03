@@ -1,9 +1,11 @@
 import { environment } from './../../../../environment/environment';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { concatMap,  from, map, mergeMap, Observable, switchMap, toArray } from "rxjs";
+import { catchError, concatMap, delay, from, map, mergeMap, Observable, of, switchMap, throwError, toArray } from "rxjs";
 import { Cats } from '../models/cats.interface';
 import { Breeds } from '../models/breeds.interface';
+import { Store } from '@ngxs/store';
+import { CatsState } from '../../store/state/cats.state';
 
 
 @Injectable()
@@ -11,7 +13,8 @@ import { Breeds } from '../models/breeds.interface';
 export class CatsApiService {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private store: Store
   ) { }
 
   // Отримання порід
@@ -48,53 +51,33 @@ export class CatsApiService {
 
   }
 
-  // public getAllCatsByBreeds(limit: number = 10): Observable<Cats[]> {
-  //   const headers = new HttpHeaders({
-  //     'x-api-key': environment.API_KEY
-  //   });
-  
-  //   // Сначала получаем все породы
-  //   return this.getBreeds().pipe(
-  //     switchMap((breeds: Breeds[]) => {
-  //       return from(breeds).pipe(  // Превращаем список пород в поток
-  //         concatMap((breed: Breeds) => {
-  //           console.log(breed);
-  //           const params = new HttpParams()
-  //             .set('breed_id', breed.id)
-  //             .set('limit', limit.toString());
-  
-  //           // Запрос для получения котов по каждой породе последовательно
-  //           return this.http.get<Cats[]>(`${environment.API_URL}/images/search`, { headers, params });
-  //         }),
-  //         toArray(), // Собираем результаты всех запросов в массив
-  //         map((allCatsByBreeds: Cats[][]) => allCatsByBreeds.flat()) // Объединяем массивы котов в один
-  //       );
-  //     })
-  //   );
-  // }
-
   public getAllCatsByBreeds(limit: number = 10, maxConcurrentRequests: number = 5): Observable<Cats[]> {
     const headers = new HttpHeaders({
       'x-api-key': environment.API_KEY
     });
-  
-    // Сначала получаем все породы
-    return this.getBreeds().pipe(
+
+    return this.store.select(CatsState.breeds).pipe(
       switchMap((breeds: Breeds[]) => {
-        return from(breeds).pipe(  // Превращаем массив пород в поток
-          mergeMap((breed: Breeds) => {
+        return from(breeds).pipe(
+          mergeMap((breed: Breeds, index: number) => {
             const params = new HttpParams()
               .set('breed_id', breed.id)
-              .set('limit', limit.toString());
-  
-            // Запрос для получения котов по каждой породе
-            return this.http.get<Cats[]>(`${environment.API_URL}/images/search`, { headers, params });
-          }, maxConcurrentRequests),  // Устанавливаем количество одновременных запросов
-          toArray(), // Собираем результаты всех запросов в массив
-          map((allCatsByBreeds: Cats[][]) => allCatsByBreeds.flat()) // Объединяем массивы котов в один
+              .set('limit', limit); // Увеличиваем лимит, чтобы собрать больше картинок
+
+            return this.http.get<Cats[]>(`${environment.API_URL}/images/search`, { headers, params }).pipe(
+              catchError(err => {
+                if (err.status === 429) {
+                  console.warn('Превышение лимита запросов, пропускаем породу:', breed.name);
+                  return of([]); // Возвращаем пустой массив в случае ошибки 429
+                }
+                return throwError(err);
+              })
+            );
+          }, maxConcurrentRequests),
+          toArray(),
+          map((allCatsByBreeds: Cats[][]) => allCatsByBreeds.flat())
         );
       })
-    );
+    )
   }
-
 }
