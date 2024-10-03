@@ -10,7 +10,7 @@ import { GetAllCats, UpdatedBreedIdAndLimit } from '../../../../../store/actions
   styleUrl: './cats-header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CatsHeaderComponent  {
+export class CatsHeaderComponent {
   @Input() public breeds$!: Observable<Breeds[]>;
   public selectedBreed: string = '';
   public limit: number = 10;
@@ -19,7 +19,7 @@ export class CatsHeaderComponent  {
 
 
   public searchCats() {
-    this.store.dispatch(new UpdatedBreedIdAndLimit(this.selectedBreed, this.limit));
+    this.store.dispatch(new UpdatedBreedIdAndLimit(this.selectedBreed, this.limit ? this.limit : this.limit = 10));
   }
 
   public trackById(index: number, item: Breeds): string {

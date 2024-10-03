@@ -1,6 +1,7 @@
 <div class="cat-grid" *ngIf="localCats?.length; else loading">
   <mat-card *ngFor="let cat of localCats; trackBy: trackById" class="cat-card">
-    <img mat-card-image [src]="cat.url" [alt]="cat.name" />
+    <img mat-card-image [src]="cat.url" [alt]="cat.name" loading="lazy" />
+
   </mat-card>
 </div>
 <ng-template #loading>
