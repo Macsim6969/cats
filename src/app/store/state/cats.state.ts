@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { CatsApiService } from '../../shared/services/catsApi.service';
 import { CatsStateModel } from '../model/cats.model';
-import { GetAllCats, LoadBreeds, UpdatedBreedIdAndLimit } from '../actions/cats.actions';
+import { GetAllCats, GetCatsByBreed, LoadBreeds, UpdatedBreedIdAndLimit } from '../actions/cats.actions';
 import { Breeds } from '../../shared/models/breeds.interface';
 import { Cats } from '../../shared/models/cats.interface';
 
@@ -14,6 +14,7 @@ import { Cats } from '../../shared/models/cats.interface';
   defaults: {
     breeds: [],
     cats: [],
+    catsByBreed: [],
     breedId: '',
     limit: 10
   }
@@ -40,9 +41,28 @@ export class CatsState {
     return state.limit;
   }
 
+  @Selector()
+  static catsByBreed(state: CatsStateModel): Cats[] {
+    return state.catsByBreed;
+  }
+
+  @Action(GetCatsByBreed)
+  getCatsByBreed(ctx: StateContext<CatsStateModel>, action: GetCatsByBreed) {
+    return this.catsService.getCatsByBreed(action.breedId, action.limit).pipe(
+      tap(cats => {
+        const state = ctx.getState();
+        ctx.setState({
+          ...state,
+          catsByBreed: cats
+        })
+      })
+    )
+  }
+
+  // Load All Cats
   @Action(GetAllCats)
-  getAllCats(ctx: StateContext<CatsStateModel>) {
-    return this.catsService.getAllCatsByBreeds().pipe(
+  getAllCats(ctx: StateContext<CatsStateModel>, action: GetAllCats) {
+    return this.catsService.getAllCatsByBreeds(action.limit).pipe(
       tap(cats => {
         const state = ctx.getState();
         ctx.setState({
@@ -53,7 +73,7 @@ export class CatsState {
     );
   }
 
-  // Загрузка пород кошек
+  // Cat Breeds Download
   @Action(LoadBreeds)
   loadBreeds(ctx: StateContext<CatsStateModel>) {
     return this.catsService.getBreeds().pipe(
@@ -67,7 +87,7 @@ export class CatsState {
     );
   }
 
-  // Поиск кошек по породе
+  // Search cats by breed
   @Action(UpdatedBreedIdAndLimit)
   searchCats(ctx: StateContext<CatsStateModel>, action: UpdatedBreedIdAndLimit) {
 

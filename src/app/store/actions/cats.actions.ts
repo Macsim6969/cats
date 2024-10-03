@@ -11,3 +11,8 @@ export class GetAllCats {
   constructor(public limit: number) { }
   static readonly type = '[Cats] Load All';
 }
+
+export class GetCatsByBreed {
+  constructor(public breedId: string, public limit: number) { }
+  static readonly type = '[Cats] Load Cats By Breed';
+}

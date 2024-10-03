@@ -17,7 +17,7 @@ import { CatsApiService } from './shared/services/catsApi.service';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxsModule.forRoot([CatsState]),  // регистрируем состояние
+    NgxsModule.forRoot([CatsState]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     RouterModule

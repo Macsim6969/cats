@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { combineLatest, map, Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { combineLatest, map } from 'rxjs';
 import { Cats } from '../../../../../shared/models/cats.interface';
 import { Store } from '@ngxs/store';
 import { CatsState } from '../../../../../store/state/cats.state';
+import { GetCatsByBreed } from '../../../../../store/actions/cats.actions';
 
 @Component({
   selector: 'app-cats-content',
@@ -11,12 +12,20 @@ import { CatsState } from '../../../../../store/state/cats.state';
 
 })
 export class CatsContentComponent implements OnInit {
-  // @Input() public cats$!: Observable<Cats[]>;
   public localCats!: Cats[];
+  public catsArrayByBreed!: Cats[];
+
+  private breedId!: string;
+  private limit!: number;
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
+    this.streamToFilterCatsArray();
+    this.getCatsByBreed();
+  }
+
+  private streamToFilterCatsArray() {
     combineLatest([
       this.store.select(CatsState.breedId),
       this.store.select(CatsState.limit),
@@ -24,11 +33,23 @@ export class CatsContentComponent implements OnInit {
     ]).pipe(
       map(([breedId, limit, cats]) => {
         return cats
-          .filter(cat => (breedId ? cat.breeds[0]?.id === breedId : true)) // Если breedId задан, фильтруем по нему
-          .slice(0, limit); // Ограничиваем по лимиту
+          .filter(cat => (breedId ? cat.breeds[0]?.id === breedId : true)) // If breedId is set, filter by it
+          .slice(0, limit); // Limit by limit
       })
     ).subscribe(filteredCats => {
-      this.localCats = filteredCats;
+      filteredCats ? this.localCats = filteredCats : this.store.dispatch(new GetCatsByBreed(this.breedId, this.limit));   // Load new Cats from other Api if in main Array not found
+      console.log(this.localCats);
     });
+  }
+
+  // Load new Cats from other Api if in main Array not found
+  private getCatsByBreed() {
+    this.store.select(CatsState.catsByBreed).subscribe((data: Cats[]) => {
+      this.catsArrayByBreed = data;
+    })
+  }
+
+  public trackById(index: number, item: Cats): string {
+    return item.id;
   }
 }

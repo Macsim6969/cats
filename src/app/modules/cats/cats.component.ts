@@ -3,7 +3,6 @@ import { Select, Store } from '@ngxs/store';
 import { GetAllCats, LoadBreeds } from '../../store/actions/cats.actions';
 import { Breeds } from '../../shared/models/breeds.interface';
 import { Observable } from 'rxjs';
-import { Cats } from '../../shared/models/cats.interface';
 import { CatsState } from '../../store/state/cats.state';
 
 @Component({
@@ -16,6 +15,7 @@ export class CatsComponent implements AfterViewInit {
 
   constructor(private store: Store) { }
 
+  // Start Loading Load Breeds and Get All Cats
   ngAfterViewInit(): void {
     this.store.dispatch(new LoadBreeds());
     this.store.dispatch(new GetAllCats(100));
