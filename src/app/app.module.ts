@@ -10,6 +10,7 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { CatsState } from './store/state/cats.state';
 import { CatsApiService } from './shared/services/catsApi.service';
+import { CatsService } from './shared/services/cats.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +25,8 @@ import { CatsApiService } from './shared/services/catsApi.service';
   ],
   providers: [
     provideAnimationsAsync(),
-    CatsApiService
+    CatsApiService,
+    CatsService
   ],
   bootstrap: [AppComponent],
 })

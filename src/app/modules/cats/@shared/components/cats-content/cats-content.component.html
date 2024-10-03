@@ -1,11 +1,19 @@
-<div class="cat-grid" *ngIf="localCats?.length; else loading">
-  <mat-card *ngFor="let cat of localCats; trackBy: trackById" class="cat-card">
-    <img mat-card-image [src]="cat.url" [alt]="cat.name" loading="lazy" />
+<div class="cat-grid" *ngIf="!isLoading">
+  <mat-card *ngFor=" let cat of localCats; trackBy: trackById" class="cat-card">
+  <img mat-card-image [src]="cat.url" [alt]="cat.name" loading="lazy" />
   </mat-card>
 </div>
-<ng-template #loading>
+<div *ngIf="isLoading">
   <app-loading class="loading"></app-loading>
-</ng-template>
+</div>
+
+<!-- Block if API broke -->
+<div class="errorBlock" *ngIf="errorData">
+  <p>{{errorData}}</p>
+  <button mat-raised-button color="primary" (click)="reloadPage()">Search</button>
+</div>
+
+<!-- Block for spare Cats Array -->
 <div *ngIf="catsArrayByBreed">
   <mat-card *ngFor="let cat of catsArrayByBreed;trackBy: trackById" class="cat-card">
     <img mat-card-image [src]="cat.url" [alt]="cat.name" />
