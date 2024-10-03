@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Breeds } from '../../../../../shared/models/breeds.interface';
-import { GetAllCats, UpdatedBreedIdAndLimit } from '../../../../../store/actions/cats.actions';
+import { UpdatedBreedIdAndLimit } from '../../../../../store/actions/cats.actions';
 
 @Component({
   selector: 'app-cats-header',

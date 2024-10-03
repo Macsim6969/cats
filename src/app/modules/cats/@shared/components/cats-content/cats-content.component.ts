@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { combineLatest, map } from 'rxjs';
 import { Cats } from '../../../../../shared/models/cats.interface';
 import { Store } from '@ngxs/store';
